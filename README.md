@@ -7,6 +7,7 @@ A Model Context Protocol (MCP) server that bridges your Plex Media Server with A
 I wanted to experiment with MCP and thought it would be interesting to integrate my Plex movie-watching experience with an LLM. This project provides real-time context of my current viewing experience, allowing me to:
 
 - **Ask questions** about what's currently playing
+- **Search your library** for movies and TV shows
 - **Monitor sessions** across all devices
 - **Deep-dive further** into cinematic elements while actively watching
 
@@ -32,9 +33,18 @@ Monitors current playback sessions on your Plex server, including:
 - Transcoding status
 - Media quality metrics
 
+#### Search Library
+
+Search your Plex library for movies and TV shows by title or keyword:
+
+- Filter results by content type (movies or TV shows)
+- Limit the number of results returned
+- Returns metadata including title, year, summary, rating, duration, and media quality
+
 ## Features
 
 - **Real-time Session Monitoring** - Track active playback across all devices
+- **Library Search** - Find movies and TV shows in your Plex library
 - **Multi-client Support** - Works with any MCP-compatible client (Claude Desktop, Cursor, etc.)
 
 ## Setup
@@ -117,7 +127,14 @@ User: What am I currently watching?
 Assistant: [Uses Get Active Sessions tool to show playback details]
 ```
 
-**2. Ask about what's playing:**
+**2. Search your library:**
+
+```
+User: Do I have any Christopher Nolan movies?
+Assistant: [Uses Search Library tool to find matching movies]
+```
+
+**3. Ask about what's playing:**
 
 ```
 User: Tell me more about this movie

@@ -7,7 +7,11 @@
       "Bash(make lint:*)",
       "Bash(find app:*)",
       "Bash(git reset:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "mcp__plex__get-active-sessions-tool",
+      "Bash(make restart:*)",
+      "mcp__plex__search-library-tool",
+      "Bash(make:*)"
     ]
   }
 }
