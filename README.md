@@ -26,21 +26,21 @@ This server is built with **Laravel 12** and **Laravel MCP**, exposing functiona
 
 ### MCP Tools
 
-| Tool | Description | Read-Only |
-|------|-------------|-----------|
-| **Get Active Sessions** | Monitor current playback sessions with user details, device info, transcoding status, and progress | Yes |
-| **Search Library** | Search for movies, TV shows, and music by title or keyword with type filtering and result limits | Yes |
-| **Get Content Details** | Get detailed information about a specific item including genres, directors, cast, and media quality | Yes |
-| **Get Recently Added** | Browse recently added movies, TV shows, and music with configurable limits | Yes |
-| **Get On Deck** | Get the "Continue Watching" queue with progress tracking | Yes |
-| **Get Watch History** | View recently watched content sorted by most recent | Yes |
-| **Get Library Sections** | List all library sections (Movies, TV Shows, Music, Photos) | Yes |
-| **List Playlists** | List all playlists on the server (audio, video, and photo) | Yes |
-| **Get Playlist Items** | Get the items in a specific playlist with item IDs for management | Yes |
-| **Create Playlist** | Create a new playlist with specified content items | No |
-| **Delete Playlist** | Delete a playlist from the server | No |
-| **Add to Playlist** | Add content items to an existing playlist | No |
-| **Remove from Playlist** | Remove a specific item from a playlist | No |
+| Tool                     | Description                                                                                         | Read-Only |
+|--------------------------|-----------------------------------------------------------------------------------------------------|-----------|
+| **Get Active Sessions**  | Monitor current playback sessions with user details, device info, transcoding status, and progress  | Yes       |
+| **Search Library**       | Search for movies, TV shows, and music by title or keyword with type filtering and result limits    | Yes       |
+| **Get Content Details**  | Get detailed information about a specific item including genres, directors, cast, and media quality | Yes       |
+| **Get Recently Added**   | Browse recently added movies, TV shows, and music with configurable limits                          | Yes       |
+| **Get On Deck**          | Get the "Continue Watching" queue with progress tracking                                            | Yes       |
+| **Get Watch History**    | View recently watched content sorted by most recent                                                 | Yes       |
+| **Get Library Sections** | List all library sections (Movies, TV Shows, Music, Photos)                                         | Yes       |
+| **List Playlists**       | List all playlists on the server (audio, video, and photo)                                          | Yes       |
+| **Get Playlist Items**   | Get the items in a specific playlist with item IDs for management                                   | Yes       |
+| **Create Playlist**      | Create a new playlist with specified content items                                                  | No        |
+| **Delete Playlist**      | Delete a playlist from the server                                                                   | No        |
+| **Add to Playlist**      | Add content items to an existing playlist                                                           | No        |
+| **Remove from Playlist** | Remove a specific item from a playlist                                                              | No        |
 
 ## Features
 
