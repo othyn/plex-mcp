@@ -8,14 +8,25 @@
       "Bash(find app:*)",
       "Bash(git reset:*)",
       "Bash(git push:*)",
+      "mcp__plex__add-to-playlist-tool",
+      "mcp__plex__create-playlist-tool",
+      "mcp__plex__delete-playlist-tool",
       "mcp__plex__get-active-sessions-tool",
-      "Bash(make restart:*)",
+      "mcp__plex__get-content-details-tool",
+      "mcp__plex__get-library-sections-tool",
+      "mcp__plex__get-on-deck-tool",
+      "mcp__plex__get-playlist-items-tool",
+      "mcp__plex__get-recently-added-tool",
+      "mcp__plex__get-watch-history-tool",
+      "mcp__plex__list-playlists-tool",
+      "mcp__plex__remove-from-playlist-tool",
       "mcp__plex__search-library-tool",
+      "Bash(make restart:*)",
       "Bash(make:*)",
       "Bash(git:*)",
       "Bash(./vendor/bin/sail composer:*)",
-      "mcp__plex__get-watch-history-tool",
-      "Bash(./vendor/bin/sail bin:*)"
+      "Bash(./vendor/bin/sail bin:*)",
+      "Skill(update-config)"
     ]
   }
 }
