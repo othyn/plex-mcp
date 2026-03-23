@@ -22,6 +22,9 @@ stop: ## Stop the application and clean up
 composer: ## Install Composer dependencies
 	$(APP) composer install --no-interaction --no-ansi
 
+boost: ## Install/update Laravel Boost guidelines and skills
+	$(APP) php artisan boost:install --no-interaction --no-ansi
+
 clean: ## Clean up the application
 	$(APP) rm -fr storage/framework/cache/*
 
