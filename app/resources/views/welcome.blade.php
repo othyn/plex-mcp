@@ -30,7 +30,7 @@
                     This MCP server provides programmatic access to your Plex Media Server, enabling AI assistants and other MCP-compatible clients to interact with your media library and retrieve session information.
                 </p>
                 <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #d1d4d6;">
-                    Connect using any MCP-compatible client to access tools for session monitoring, subtitle search, and intelligent prompts for content summaries.
+                    Connect using any MCP-compatible client to access tools for session monitoring.
                 </p>
             </div>
 
@@ -63,33 +63,9 @@
                             <div style="font-size: 13px; color: #9fa4a8; line-height: 1.5;">Monitor current playback sessions with user and device details</div>
                         </div>
                     </div>
-                    <div style="display: flex; align-items: start; padding: 16px; background: #1f2326; border-radius: 4px; border: 1px solid #3a3d41; border-left: 3px solid #cc7b19;">
-                        <svg style="width: 20px; height: 20px; margin-right: 12px; fill: #cc7b19; flex-shrink: 0; margin-top: 2px;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
-                        </svg>
-                        <div>
-                            <div style="font-weight: 600; color: #ffffff; margin-bottom: 4px; font-size: 14px;">Subtitle Search</div>
-                            <div style="font-size: 13px; color: #9fa4a8; line-height: 1.5;">Search and retrieve subtitles by title or IMDb ID</div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
-            <!-- Prompts -->
-            <div style="margin-bottom: 32px;">
-                <h3 style="margin: 0 0 16px; font-size: 16px; font-weight: 600; color: #e5a00d;">Available Prompts</h3>
-                <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
-                    <div style="display: flex; align-items: start; padding: 16px; background: #1f2326; border-radius: 4px; border-left: 3px solid #e5a00d; border: 1px solid #3a3d41; border-left: 3px solid #e5a00d;">
-                        <svg style="width: 20px; height: 20px; margin-right: 12px; fill: #e5a00d; flex-shrink: 0; margin-top: 2px;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4 6V3c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v14l4-4h10c.55 0 1-.45 1-1z"/>
-                        </svg>
-                        <div>
-                            <div style="font-weight: 600; color: #ffffff; margin-bottom: 4px; font-size: 14px;">What Have I Missed</div>
-                            <div style="font-size: 13px; color: #9fa4a8; line-height: 1.5;">Generates a concise summary of what you've missed in currently playing content using subtitles</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Getting Started -->
             <div style="padding: 20px; background: #1f2326; border-radius: 6px; border: 1px solid #e5a00d;">
