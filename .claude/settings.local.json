@@ -11,7 +11,11 @@
       "mcp__plex__get-active-sessions-tool",
       "Bash(make restart:*)",
       "mcp__plex__search-library-tool",
-      "Bash(make:*)"
+      "Bash(make:*)",
+      "Bash(git:*)",
+      "Bash(./vendor/bin/sail composer:*)",
+      "mcp__plex__get-watch-history-tool",
+      "Bash(./vendor/bin/sail bin:*)"
     ]
   }
 }
