@@ -6,7 +6,7 @@ namespace App\Mcp\Tools\Plex;
 
 use App\Services\PlexClient;
 use Exception;
-use Illuminate\JsonSchema\JsonSchema;
+use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Illuminate\Support\Facades\Log;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
