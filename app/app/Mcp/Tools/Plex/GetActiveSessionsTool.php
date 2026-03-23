@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
 use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
+use Override;
 
 #[IsReadOnly]
 final class GetActiveSessionsTool extends Tool
@@ -88,6 +89,7 @@ final class GetActiveSessionsTool extends Tool
         }
     }
 
+    #[Override]
     public function schema(JsonSchema $schema): array
     {
         return [];
