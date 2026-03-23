@@ -13,6 +13,10 @@
 Run `make help` to see available commands before using ad-hoc commands.
 If an ad-hoc command is required, invoke it with: `make shell/"<command>"`.
 
+## MCP Server
+
+- After making changes to MCP tools, servers, or resources, run `make restart` to restart the Docker container so the Plex MCP server picks up the changes.
+
 ## Conventions
 
 - Avoid unnecessary abbreviations.

@@ -23,6 +23,47 @@ final readonly class PlexClient
         $this->timeout = config('plex.timeout', 30);
     }
 
+    /**
+     * @param  array{type?: string, limit?: int}  $options
+     * @return array<int, array<string, mixed>>
+     */
+    public function searchLibrary(string $query, array $options = []): array
+    {
+        try {
+            Log::debug('Searching Plex library', ['query' => $query, 'options' => $options]);
+
+            $params = ['query' => $query];
+
+            if (isset($options['limit'])) {
+                $params['limit'] = $options['limit'];
+            }
+
+            $data = $this->get('/hubs/search', $params);
+            $hubs = $data['MediaContainer']['Hub'] ?? [];
+
+            if (isset($options['type'])) {
+                $hubs = array_values(array_filter(
+                    $hubs,
+                    fn (array $hub): bool => ($hub['type'] ?? '') === $options['type'],
+                ));
+            }
+
+            Log::info('Plex library search completed', [
+                'query' => $query,
+                'hub_count' => count($hubs),
+            ]);
+
+            return $hubs;
+        } catch (Exception $exception) {
+            Log::error('Failed to search Plex library', [
+                'query' => $query,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return [];
+        }
+    }
+
     public function getActiveSessions(): array
     {
         try {
