@@ -4,16 +4,11 @@ A Model Context Protocol (MCP) server that bridges your Plex Media Server with A
 
 ## Motivation
 
-I wanted to experiment with MCP and thought it would be interesting to integrate my Plex movie-watching experience with an LLM.
-As someone who enjoys deep-diving into films, I often find myself wanting to understand plot points I may have missed or explore deeper context while watching.
-This project provides real-time context of my current viewing experience through subtitle analysis, allowing me to:
+I wanted to experiment with MCP and thought it would be interesting to integrate my Plex movie-watching experience with an LLM. This project provides real-time context of my current viewing experience, allowing me to:
 
-- **Recap movies** to the current playback position when I join mid-way
-- **Ask questions** about plot developments, characters, and themes
+- **Ask questions** about what's currently playing
+- **Monitor sessions** across all devices
 - **Deep-dive further** into cinematic elements while actively watching
-- **Get contextual summaries** based on what has actually happened on screen
-
-By leveraging OpenSubtitles for real-time subtitle context, the LLM can understand exactly where I am in a film and provide relevant, spoiler-aware responses.
 
 <img src="./README/what-have-i-missed.png" width="300" /> <img src="./README/deep-dive.png" width="300" />
 
@@ -28,7 +23,7 @@ This server is built with **Laravel 12** and **Laravel MCP**, exposing functiona
 
 ### MCP Tools
 
-#### 1. Get Active Sessions
+#### Get Active Sessions
 
 Monitors current playback sessions on your Plex server, including:
 
@@ -37,38 +32,49 @@ Monitors current playback sessions on your Plex server, including:
 - Transcoding status
 - Media quality metrics
 
-#### 2. Search Subtitles
-
-Searches and retrieves subtitles from OpenSubtitles by:
-
-- IMDb ID or title search
-- Language filtering
-- Optional time-based filtering (returns subtitles up to a specific minute)
-
-### MCP Prompts
-
-#### What Have I Missed
-
-An intelligent prompt that:
-
-1. Detects your currently playing content
-2. Retrieves subtitles up to your current playback position
-3. Generates a concise, chronological summary of key plot points
-4. Provides context-aware insights without spoilers
-
 ## Features
 
 - **Real-time Session Monitoring** - Track active playback across all devices
-- **Subtitle-based Context** - Leverage OpenSubtitles for accurate content understanding
-- **Intelligent Summaries** - AI-generated recaps based on actual dialogue and events
-- **Spoiler-safe** - Only provides information up to your current viewing position
 - **Multi-client Support** - Works with any MCP-compatible client (Claude Desktop, Cursor, etc.)
 
-## Prerequisites
+## Setup
+
+### Prerequisites
 
 - Docker & Docker Compose
-- Plex Media Server with authentication token
-- OpenSubtitles API credentials
+
+### 1. Get Your Plex Token
+
+1. Open the **Plex Web App** in your browser and sign in
+2. Start playing any media (or navigate to any library item)
+3. Open your browser's **Developer Tools** (F12 or Cmd+Option+I on Mac)
+4. Go to the **Network** tab
+5. Look at any request going to your Plex server
+6. Find the `X-Plex-Token` parameter in the request URL — that's your token
+
+### 2. Configure Environment
+
+```bash
+cp docker/dev.env.example docker/dev.env
+```
+
+Edit `docker/dev.env` and set your Plex token:
+
+```
+PLEX_TOKEN=your-token-here
+```
+
+If your Plex server is not running on the same machine, also update `PLEX_URL`.
+
+### 3. Start the Server
+
+```bash
+make start
+```
+
+This will build the Docker container, install dependencies, and start the server at `http://localhost:8001`.
+
+Run `make help` to see all available commands.
 
 ## MCP Client Configuration
 
@@ -104,28 +110,16 @@ Add to your MCP client configuration:
 
 ### Example Workflows
 
-**1. Catch up on a movie you joined late:**
-
-```
-User: What have I missed in the movie?
-Assistant: [Uses "What Have I Missed" prompt with subtitle context]
-```
-
-**2. Deep-dive during viewing:**
-
-```
-User: What's the significance of all the references to Alice in Wonderland and 'following the white rabbit'?
-Assistant: [Uses subtitle search to understand context and provide spoiler-free analysis]
-```
-
-```
-User: When does he learn kung fu?
-Assistant: [Uses subtitle search to understand context and provide spoiler-free analysis]
-```
-
-**3. Monitor your viewing sessions:**
+**1. Monitor your viewing sessions:**
 
 ```
 User: What am I currently watching?
 Assistant: [Uses Get Active Sessions tool to show playback details]
+```
+
+**2. Ask about what's playing:**
+
+```
+User: Tell me more about this movie
+Assistant: [Uses session info to identify the content and provide details]
 ```
