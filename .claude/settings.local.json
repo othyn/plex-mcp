@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(make start:*)",
+      "Bash(make fmt:*)",
+      "Bash(make test:*)",
+      "Bash(make lint:*)",
+      "Bash(find app:*)",
+      "Bash(git reset:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}
