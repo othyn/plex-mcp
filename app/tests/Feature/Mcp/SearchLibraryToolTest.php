@@ -282,3 +282,162 @@ it('requires the query parameter', function () {
     $response->assertSee('"status":"error"');
     $response->assertSee('query parameter is required');
 });
+
+it('returns artist search results', function () {
+    // Arrange
+    Http::fake([
+        '*/hubs/search*' => Http::response([
+            'MediaContainer' => [
+                'Hub' => [
+                    [
+                        'type' => 'artist',
+                        'title' => 'Artists',
+                        'Metadata' => [
+                            [
+                                'type' => 'artist',
+                                'title' => 'Queen',
+                                'summary' => 'British rock band.',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]),
+    ]);
+
+    // Act
+    $response = PlexServer::tool(SearchLibraryTool::class, [
+        'query' => 'Queen',
+    ]);
+
+    // Assert
+    $response->assertOk();
+    $response->assertSee('"status":"success"');
+    $response->assertSee('Queen (Artist)');
+});
+
+it('returns album search results with artist name', function () {
+    // Arrange
+    Http::fake([
+        '*/hubs/search*' => Http::response([
+            'MediaContainer' => [
+                'Hub' => [
+                    [
+                        'type' => 'album',
+                        'title' => 'Albums',
+                        'Metadata' => [
+                            [
+                                'type' => 'album',
+                                'title' => 'A Night at the Opera',
+                                'parentTitle' => 'Queen',
+                                'year' => 1975,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]),
+    ]);
+
+    // Act
+    $response = PlexServer::tool(SearchLibraryTool::class, [
+        'query' => 'Opera',
+    ]);
+
+    // Assert
+    $response->assertOk();
+    $response->assertSee('A Night at the Opera by Queen (1975) (Album)');
+    $response->assertSee('"artist":"Queen"');
+});
+
+it('returns track search results with artist and album', function () {
+    // Arrange
+    Http::fake([
+        '*/hubs/search*' => Http::response([
+            'MediaContainer' => [
+                'Hub' => [
+                    [
+                        'type' => 'track',
+                        'title' => 'Tracks',
+                        'Metadata' => [
+                            [
+                                'type' => 'track',
+                                'title' => 'Bohemian Rhapsody',
+                                'grandparentTitle' => 'Queen',
+                                'parentTitle' => 'A Night at the Opera',
+                                'index' => 11,
+                                'duration' => 354000,
+                                'Media' => [
+                                    [
+                                        'bitrate' => 320,
+                                        'audioCodec' => 'mp3',
+                                        'audioChannels' => 2,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]),
+    ]);
+
+    // Act
+    $response = PlexServer::tool(SearchLibraryTool::class, [
+        'query' => 'Bohemian',
+    ]);
+
+    // Assert
+    $response->assertOk();
+    $response->assertSee('Queen - A Night at the Opera - Bohemian Rhapsody (Track)');
+    $response->assertSee('"artist":"Queen"');
+    $response->assertSee('"album":"A Night at the Opera"');
+    $response->assertSee('"track_number":11');
+    $response->assertSee('"audio_codec":"mp3"');
+});
+
+it('filters results by artist type', function () {
+    // Arrange
+    Http::fake([
+        '*/hubs/search*' => Http::response([
+            'MediaContainer' => [
+                'Hub' => [
+                    [
+                        'type' => 'artist',
+                        'title' => 'Artists',
+                        'Metadata' => [
+                            [
+                                'type' => 'artist',
+                                'title' => 'Queen',
+                            ],
+                        ],
+                    ],
+                    [
+                        'type' => 'track',
+                        'title' => 'Tracks',
+                        'Metadata' => [
+                            [
+                                'type' => 'track',
+                                'title' => 'Queen of the Night',
+                                'grandparentTitle' => 'Mozart',
+                                'parentTitle' => 'The Magic Flute',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]),
+    ]);
+
+    // Act
+    $response = PlexServer::tool(SearchLibraryTool::class, [
+        'query' => 'Queen',
+        'type' => 'artist',
+    ]);
+
+    // Assert
+    $response->assertOk();
+    $response->assertSee('"total_results":1');
+    $response->assertSee('Queen (Artist)');
+    $response->assertDontSee('Queen of the Night');
+});

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Mcp\Tools\Plex;
 
+use App\Mcp\Tools\Plex\Concerns\ParsesPlexMetadata;
 use App\Services\PlexClient;
 use Exception;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
@@ -17,7 +18,9 @@ use Override;
 #[IsReadOnly]
 final class SearchLibraryTool extends Tool
 {
-    protected string $description = 'Search the Plex library for movies and TV shows by title or keyword.';
+    use ParsesPlexMetadata;
+
+    protected string $description = 'Search the Plex library for movies, TV shows, and music by title or keyword.';
 
     public function handle(Request $request): Response
     {
@@ -38,7 +41,7 @@ final class SearchLibraryTool extends Tool
             $options = [];
 
             $type = $request->get('type');
-            if (is_string($type) && in_array($type, ['movie', 'show'], true)) {
+            if (is_string($type) && in_array($type, ['movie', 'show', 'artist', 'album', 'track'], true)) {
                 $options['type'] = $type;
             }
 
@@ -102,84 +105,15 @@ final class SearchLibraryTool extends Tool
     {
         return [
             'query' => $schema->string()
-                ->description('The search term to find movies and TV shows.')
+                ->description('The search term to find movies, TV shows, and music.')
                 ->required(),
 
             'type' => $schema->string()
-                ->enum(['movie', 'show'])
+                ->enum(['movie', 'show', 'artist', 'album', 'track'])
                 ->description('Filter results by content type.'),
 
             'limit' => $schema->integer()
                 ->description('Maximum number of results to return per type (1-50).'),
         ];
-    }
-
-    private function parseMetadata(array $metadata): array
-    {
-        $type = $metadata['type'] ?? 'unknown';
-        $title = $metadata['title'] ?? 'Unknown';
-
-        $parsed = [
-            'title' => $title,
-            'type' => $type,
-        ];
-
-        if ($type === 'episode') {
-            $showTitle = $metadata['grandparentTitle'] ?? 'Unknown Show';
-            $seasonNumber = $metadata['parentIndex'] ?? '?';
-            $episodeNumber = $metadata['index'] ?? '?';
-            $parsed['content_description'] = sprintf(
-                '%s - S%sE%s - %s (TV Episode)',
-                $showTitle,
-                $seasonNumber,
-                $episodeNumber,
-                $title,
-            );
-            $parsed['show_title'] = $showTitle;
-            $parsed['season'] = $seasonNumber;
-            $parsed['episode'] = $episodeNumber;
-        } elseif ($type === 'show') {
-            $year = $metadata['year'] ?? null;
-            $parsed['content_description'] = $year
-                ? sprintf('%s (%s) (TV Show)', $title, $year)
-                : sprintf('%s (TV Show)', $title);
-            $parsed['year'] = $year;
-        } elseif ($type === 'movie') {
-            $year = $metadata['year'] ?? null;
-            $parsed['content_description'] = $year
-                ? sprintf('%s (%s) (Movie)', $title, $year)
-                : sprintf('%s (Movie)', $title);
-            $parsed['year'] = $year;
-        } else {
-            $parsed['content_description'] = sprintf('%s (%s)', $title, $type);
-        }
-
-        if (isset($metadata['summary']) && $metadata['summary'] !== '') {
-            $parsed['summary'] = $metadata['summary'];
-        }
-
-        if (isset($metadata['rating'])) {
-            $parsed['rating'] = $metadata['rating'];
-        }
-
-        if (isset($metadata['duration']) && $metadata['duration'] > 0) {
-            $parsed['duration_minutes'] = (int) ($metadata['duration'] / 1000 / 60);
-        }
-
-        $media = $metadata['Media'][0] ?? null;
-        if ($media) {
-            $mediaInfo = [];
-            if (isset($media['videoResolution'])) {
-                $mediaInfo['resolution'] = $media['videoResolution'];
-            }
-            if (isset($media['bitrate'])) {
-                $mediaInfo['bitrate_kbps'] = $media['bitrate'];
-            }
-            if ($mediaInfo !== []) {
-                $parsed['media_quality'] = $mediaInfo;
-            }
-        }
-
-        return $parsed;
     }
 }
