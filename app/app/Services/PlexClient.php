@@ -200,12 +200,14 @@ final class PlexClient
         try {
             Log::debug('Creating Plex playlist', ['title' => $title, 'type' => $type]);
 
-            $data = $this->post('/playlists', [
+            $query = http_build_query([
                 'title' => $title,
                 'type' => $type,
                 'smart' => 0,
                 'uri' => $uri,
             ]);
+
+            $data = $this->post("/playlists?{$query}");
 
             $playlist = $data['MediaContainer']['Metadata'][0] ?? [];
 
@@ -248,9 +250,9 @@ final class PlexClient
         try {
             Log::debug('Adding items to Plex playlist', ['playlistId' => $playlistId]);
 
-            $this->put("/playlists/{$playlistId}/items", [
-                'uri' => $uri,
-            ]);
+            $query = http_build_query(['uri' => $uri]);
+
+            $this->put("/playlists/{$playlistId}/items?{$query}");
 
             Log::info('Added items to Plex playlist', ['playlistId' => $playlistId]);
 

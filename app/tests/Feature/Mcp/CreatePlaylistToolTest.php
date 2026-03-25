@@ -14,7 +14,7 @@ it('creates a video playlist', function () {
                 'machineIdentifier' => 'abc123',
             ],
         ]),
-        '*/playlists' => Http::response([
+        '*/playlists*' => Http::response([
             'MediaContainer' => [
                 'Metadata' => [
                     [
@@ -49,7 +49,7 @@ it('creates an audio playlist', function () {
                 'machineIdentifier' => 'abc123',
             ],
         ]),
-        '*/playlists' => Http::response([
+        '*/playlists*' => Http::response([
             'MediaContainer' => [
                 'Metadata' => [
                     [
@@ -129,7 +129,7 @@ it('handles API errors gracefully', function () {
                 'machineIdentifier' => 'abc123',
             ],
         ]),
-        '*/playlists' => Http::response(['error' => 'Server error'], 500),
+        '*/playlists*' => Http::response(['error' => 'Server error'], 500),
     ]);
 
     // Act
