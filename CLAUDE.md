@@ -363,3 +363,8 @@ it('creates a result', function () {
 });
 ```
 </laravel-boost-guidelines>
+
+## Plex MCP
+
+### Search
+- The `search-library-tool` only supports one search term per query. Do not combine multiple artist names or titles in a single search (e.g., "Pink Floyd Led Zeppelin" will return nothing). Instead, make separate searches for each artist/title. Use parallel tool calls to search efficiently.

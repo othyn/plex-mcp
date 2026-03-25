@@ -105,7 +105,7 @@ final class SearchLibraryTool extends Tool
     {
         return [
             'query' => $schema->string()
-                ->description('The search term to find movies, TV shows, and music.')
+                ->description('A single search term to find movies, TV shows, and music. Only one title or artist per query — do not combine multiple names (e.g., use "Pink Floyd", not "Pink Floyd Led Zeppelin"). Make separate parallel requests for multiple searches.')
                 ->required(),
 
             'type' => $schema->string()
