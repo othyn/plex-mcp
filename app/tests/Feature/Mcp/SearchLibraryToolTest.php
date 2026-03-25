@@ -361,6 +361,7 @@ it('returns track search results with artist and album', function () {
                         'title' => 'Tracks',
                         'Metadata' => [
                             [
+                                'ratingKey' => '12345',
                                 'type' => 'track',
                                 'title' => 'Bohemian Rhapsody',
                                 'grandparentTitle' => 'Queen',
@@ -389,11 +390,45 @@ it('returns track search results with artist and album', function () {
 
     // Assert
     $response->assertOk();
+    $response->assertSee('"rating_key":"12345"');
     $response->assertSee('Queen - A Night at the Opera - Bohemian Rhapsody (Track)');
     $response->assertSee('"artist":"Queen"');
     $response->assertSee('"album":"A Night at the Opera"');
     $response->assertSee('"track_number":11');
     $response->assertSee('"audio_codec":"mp3"');
+});
+
+it('includes rating_key for all content types when present in API response', function () {
+    // Arrange
+    Http::fake([
+        '*/hubs/search*' => Http::response([
+            'MediaContainer' => [
+                'Hub' => [
+                    [
+                        'type' => 'movie',
+                        'title' => 'Movies',
+                        'Metadata' => [
+                            [
+                                'ratingKey' => '99999',
+                                'type' => 'movie',
+                                'title' => 'Test Movie',
+                                'year' => 2024,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]),
+    ]);
+
+    // Act
+    $response = PlexServer::tool(SearchLibraryTool::class, [
+        'query' => 'Test Movie',
+    ]);
+
+    // Assert
+    $response->assertOk();
+    $response->assertSee('"rating_key":"99999"');
 });
 
 it('filters results by artist type', function () {

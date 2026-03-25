@@ -16,6 +16,7 @@ trait ParsesPlexMetadata
         $title = $metadata['title'] ?? 'Unknown';
 
         $parsed = [
+            'rating_key' => $metadata['ratingKey'] ?? null,
             'title' => $title,
             'type' => $type,
         ];
