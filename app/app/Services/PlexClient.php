@@ -366,6 +366,74 @@ final class PlexClient
         }
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function getGenresForSection(int $sectionKey): array
+    {
+        try {
+            Log::debug('Getting genres for Plex library section', ['sectionKey' => $sectionKey]);
+
+            $data = $this->get("/library/sections/{$sectionKey}/genre");
+            $genres = $data['MediaContainer']['Directory'] ?? [];
+
+            Log::info('Retrieved genres for Plex library section', [
+                'sectionKey' => $sectionKey,
+                'count' => count($genres),
+            ]);
+
+            return $genres;
+        } catch (Exception $exception) {
+            Log::error('Failed to get genres for Plex library section', [
+                'sectionKey' => $sectionKey,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return [];
+        }
+    }
+
+    /**
+     * @param  array{limit?: int}  $options
+     * @return array<int, array<string, mixed>>
+     */
+    public function getItemsByGenre(int $sectionKey, int $genreKey, array $options = []): array
+    {
+        try {
+            Log::debug('Getting items by genre from Plex library section', [
+                'sectionKey' => $sectionKey,
+                'genreKey' => $genreKey,
+                'options' => $options,
+            ]);
+
+            $params = ['genre' => $genreKey];
+
+            if (isset($options['limit'])) {
+                $params['X-Plex-Container-Size'] = $options['limit'];
+                $params['X-Plex-Container-Start'] = 0;
+            }
+
+            $data = $this->get("/library/sections/{$sectionKey}/all", $params);
+            $items = $data['MediaContainer']['Metadata'] ?? [];
+
+            Log::info('Retrieved items by genre from Plex library section', [
+                'sectionKey' => $sectionKey,
+                'genreKey' => $genreKey,
+                'count' => count($items),
+            ]);
+
+            return $items;
+        } catch (Exception $exception) {
+            Log::error('Failed to get items by genre from Plex library section', [
+                'sectionKey' => $sectionKey,
+                'genreKey' => $genreKey,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return [];
+        }
+    }
+
     public function removeFromPlaylist(int $playlistId, int $playlistItemId): bool
     {
         try {
